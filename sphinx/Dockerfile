@@ -3,12 +3,16 @@ MAINTAINER KAWAHARAsouta <kawahara6514@gmail.com>
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt install -y apache2 git vim tmux python3 python3-pip python3-sphinx locales wget \
+RUN apt update 2>>/dev/null && apt install -y apache2 git vim tmux python3 python3-pip python3-sphinx locales wget 2>>/dev/null \
  && pip3 install sphinx sphinx_rtd_theme \
  && mkdir ~/git && git clone https://github.com/kawaharasouta/dotfiles.git ~/git/dotfiles \
- && bash ~/git/dotfiles/setup.sh
+ && bash ~/git/dotfiles/setup.sh \\
+ && mkdir ~/.ssh
 
-RUN apt install -y locales \
+# use env, atode nosuyo.
+COPY ssh /root/.ssh/
+
+RUN apt install -y locales 2>>/dev/null \
  && locale-gen ja_JP.UTF-8 \
  && echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
 #RUN locale-gen ja_JP.UTF-8
