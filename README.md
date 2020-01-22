@@ -7,3 +7,7 @@ sphinx用Dockerfile (pythonイメージだと日本語化がうまく行かな�
 ### tex
 
 tex用Dockerfile
+
+### local_nginx
+
+ローカルでコンテナにサブドメイン振る用
