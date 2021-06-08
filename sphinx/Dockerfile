@@ -1,23 +1,18 @@
-FROM ubuntu:18.04
+FROM python:slim
 MAINTAINER KAWAHARAsouta <kawahara6514@gmail.com>
 
-ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /work
+RUN apt-get update \
+ && apt-get install --no-install-recommends -y \
+      graphviz \
+      imagemagick \
+      make \
+ && apt-get autoremove \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN apt update 2>>/dev/null && apt install -y apache2 git vim tmux python3 python3-pip python3-sphinx locales wget 2>>/dev/null \
- && pip3 install sphinx sphinx_rtd_theme \
- && mkdir ~/git && git clone https://github.com/kawaharasouta/dotfiles.git ~/git/dotfiles \
- && bash ~/git/dotfiles/setup.sh \\
- && mkdir ~/.ssh
+RUN python3 -m pip install --no-cache-dir -U pip
+RUN python3 -m pip install --no-cache-dir Sphinx==4.0.2 Pillow
+RUN python3 -m pip install --no-cache-dir sphinx_rtd_theme
 
-# use env, atode nosuyo.
-COPY ssh /root/.ssh/
-
-RUN apt install -y locales 2>>/dev/null \
- && locale-gen ja_JP.UTF-8 \
- && echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
-#RUN locale-gen ja_JP.UTF-8
-#ENV LANG ja_JP.UTF-8
-#ENV LANGUAGE ja_JP.UTF-8
-#ENV LC_ALL ja_JP.UTF-8
-
-CMD ["/bin/bash", "--login"}
+CMD ["make", "docs"]
