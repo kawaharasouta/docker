@@ -40,5 +40,5 @@ $ git clone https://github.com/kawaharasouta/docker ~/git/docker
 $ mkdir ~/projects
 $ docker run --name elixir -p 8090:80 -v ~/projects:/usr/local/elixir/http/projects -d yutarohayakawa/elixir
 $ docker exec elixir ./add_project -r https://github.com/nginx/nginx -n nginx
-
+http://localhost:8090/nginx/latest/source にアクセスしてelixirの動作を確認する．
 
